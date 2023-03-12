@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "uniqid": "^5.4.0",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.33",

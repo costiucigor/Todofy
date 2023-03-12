@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import uniqid from "uniqid"
 import {reactive, watch} from "vue";
+import IconCheckboxBlankOutline from '~icons/mdi/checkbox-blank-outline'
+import IconCheckboxMarked from '~icons/mdi/checkbox-marked'
 
   const defaultData = {
     columns: [
@@ -67,8 +69,21 @@ const addItem = (event: SubmitEvent, column: Column) => {
       <div
            v-for="item of column.list"
            :key="item.id"
-           class="bg-slate-50 rounded-md py-2 px-3 shadow-md">
-        {{ item.description }}
+           class="bg-slate-50 rounded-md py-2 px-3 shadow-md flex flex-row space-x-2 items-start">
+        <button
+            class="mt-[2px]"
+            @click="item.state = item.state === 'done' ? 'new' : 'done'"
+        >
+          <IconCheckboxBlankOutline v-if="item.state !== 'done'" />
+          <IconCheckboxMarked v-else />
+        </button>
+        <span class="inline-block break-words min-w-0"
+              :class="{
+                'line-through': item.state === 'done',
+        }"
+        >
+           {{ item.description }}
+        </span>
       </div>
       <div class="pt-4">
         <form @submit.prevent="addItem($event, column)" class="flex flex-col justify-end">
