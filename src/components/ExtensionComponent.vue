@@ -100,7 +100,6 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 
   form.reset();
 }
-
 </script>
 
 <template>
