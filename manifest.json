@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Todofy",
+  "description": "Simple, basic, reliable",
+  "version": "0.1",
+
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": ["storage"]
+}

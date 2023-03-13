@@ -1,42 +1,67 @@
 <script setup lang="ts">
 import uniqid from "uniqid"
-import {reactive, ref, watch} from "vue";
+import {reactive, ref, watch, toRaw} from "vue";
 import IconCheckboxBlankOutline from '~icons/mdi/checkbox-blank-outline'
 import IconCheckboxMarked from '~icons/mdi/checkbox-marked'
 import IconTrashCan from '~icons/mdi/trash-can'
 import IconEdit from '~icons/mdi/edit'
+import { format } from 'date-fns'
 import draggable from "vuedraggable";
 
+const time = ref('')
+const date = ref('')
+
+setInterval(() => {
+  const now = new Date()
+  time.value = format(now, 'hh:mm:ss a')
+  date.value = format(now, 'MMMM dd, yyyy')
+}, 1000)
 
 const drag = ref(false);
 const defaultData = {
   columns: [
     {
-      name: "now",
+      name: "Now",
       list: []
     },
     {
-      name: "next",
+      name: "Next",
       list: []
     },
     {
-      name: "later",
+      name: "Later",
       list: []
     }
   ]
 } as { columns: Column[] }
 
-const localStorageString = localStorage.getItem("toodaloo-app-data");
-const localStorageData = localStorageString ? JSON.parse(localStorageString) : defaultData;
+const data = reactive(defaultData);
 
-const data = reactive(localStorageData);
+if (chrome?.storage){
+  chrome.storage.sync.get(["key"], (result) => {
+    const storeData = result["key"];
+    if (storeData) {
+      data.columns = storeData.columns;
+    }
+  });
+} else {
+  const localStorageString = localStorage.getItem("todofy-data");
+  if (localStorageString) {
+    data.columns = JSON.parse(localStorageString).columns;
+  }
+}
 
 watch(data, (newData) => {
-  localStorage.setItem("toodaloo-app-data", JSON.stringify(newData))
+  if (chrome?.storage) {
+    chrome.storage.sync.set({key: toRaw(data) }, () => {
+    });
+  } else {
+    localStorage.setItem("todofy-data", JSON.stringify(newData))
+  }
 });
 
 interface Column {
-  name: string;
+  name: String;
   list: {
     id: string;
     description: string;
@@ -79,12 +104,16 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 </script>
 
 <template>
+  <div class="flex flex-col items-center mt-10 text-2xl font-bold text-gray-800">
+    <div class="mb-2">{{ time }}</div>
+    <div class="text-lg font-normal">{{ date }}</div>
+  </div>
   <div class="flex flex-row justify-center space-x-5 pt-10">
     <div
         v-for="column of data.columns"
         :key="column.name"
-        class="rounded-md shadow-md bg-slate-100 py-4 px-4 ga w-1/4 space-y-5">
-      <div class="mb-3">{{ column.name }}</div>
+        class="rounded-md mt-40 shadow-md bg-slate-300 py-4 px-4 ga w-1/4 space-y-5">
+      <div class="mb-3 ml-40 text-xl font-bold justify-center">{{ column.name }}</div>
       <draggable
           v-model="column.list"
           group="items"
@@ -113,6 +142,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
                     :value="item.description"
                     class="w-full px-3 py-2 rounded-md mb-2"
                     autocomplete="off"
+                    required
                 />
                 <div class="flex justify-between">
                   <button type="button"
@@ -164,6 +194,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
               name="description"
               class="w-full px-3 py-2 rounded-md mb-2"
               autocomplete="off"
+              required
           />
           <button>Add</button>
         </form>
