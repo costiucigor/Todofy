@@ -138,6 +138,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
               >
                 <input
                     type="text"
+                    value="test"
                     name="description"
                     :value="item.description"
                     class="w-full px-3 py-2 rounded-md mb-2"
@@ -147,11 +148,11 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
                 <div class="flex justify-between">
                   <button type="button"
                           @click="item.editing = false"
-                          class="text-xs"
+                          class="bg-red-700 mb-4 rounded-md text-white text-l hover:bg-red-500 font-heavy w-20 transition duration-300 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose"
                   >
                     Cancel
                   </button>
-                  <button>Add</button>
+                  <button class="bg-green-700 mb-4 rounded-md text-white text-l hover:bg-green-500 font-heavy w-20 transition duration-300 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose">Save</button>
                 </div>
               </form>
             </template>
@@ -196,7 +197,9 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
               autocomplete="off"
               required
           />
-          <button>Add</button>
+          <div class="flex justify-center">
+            <button class="bg-sky-700 mb-4 rounded-md text-white text-l hover:bg-sky-500 font-heavy w-20 transition duration-300 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose">Add</button>
+          </div>
         </form>
       </div>
     </div>
