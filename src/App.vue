@@ -10,7 +10,7 @@ import ExtensionComponent from './components/ExtensionComponent.vue'
 
 <style>
 .bg-image {
-  background-image: url('/src/assets/panorama-nature-hills-moldova-near-balanesti-village-193107868.jpg');
+  background-image: url('/src/assets/3409913 (1).jpg');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
