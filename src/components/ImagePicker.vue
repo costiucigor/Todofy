@@ -6,8 +6,7 @@ export default {
   emits: ["selectedPicture"],
 
   setup(props, { emit }) {
-    const showModal = ref(false)
-    const selectedPicture = ref(null)
+    const selectedPicture = ref("")
     const pictures = [
       'src/assets/istockphoto-635792246-612x612.jpg',
       'src/assets/panorama-nature-hills-moldova-near-balanesti-village-193107868.jpg',
@@ -18,17 +17,10 @@ export default {
 
     const selectPicture = (picture) => {
       selectedPicture.value = picture
-      showModal.value = false
-      console.log(selectedPicture)
-    }
-
-    const handleImageSelect = (image) => {
-      selectedPicture.value = image
-      emit('selectedPicture', selectedPicture.value)
+      emit("selectedPicture", picture)
     }
 
     return {
-      showModal,
       selectedPicture,
       pictures,
       selectPicture,
@@ -40,17 +32,13 @@ export default {
 <template>
   <div>
     <button @click="showModal = true">Choose Background Picture</button>
-
-    <!-- Modal backdrop -->
     <div
-        v-if="showModal"
+        v-if="$props.showModal"
         class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"
-        @click="showModal = false"
+        @click="$emit('update:showModal', false)"
     ></div>
-
-    <!-- Modal content -->
     <div
-        v-if="showModal"
+        v-if="$props.showModal"
         class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-lg z-20"
         style="width: 500px;"
     >
@@ -71,6 +59,4 @@ export default {
   </div>
 </template>
 
-<style>
-/* No styles needed */
-</style>
+

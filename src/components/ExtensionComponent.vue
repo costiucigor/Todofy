@@ -16,10 +16,11 @@ const time = ref("")
 const date = ref("")
 
 const showModal = ref(false)
-const selectedPicture = ref('')
+const selectedPicture = ref("")
 
 const handleSelectedImage = (image) => {
-  selectedPicture.value = image
+  console.log(selectedPicture.value)
+  selectedPicture.value = image.value
   showModal.value = false
 }
 
@@ -122,7 +123,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
   </div>
   <div>
     <button @click="showModal = true">Select Image</button>
-    <image-picker v-model:showModal="showModal" @image-selected="handleSelectedImage" />
+    <image-picker v-model:showModal="showModal" v-model:selectedPicture="selectedPicture" @image-selected="handleSelectedImage" />
   </div>
   <div class="flex flex-row justify-center space-x-5 pt-10">
     <div
