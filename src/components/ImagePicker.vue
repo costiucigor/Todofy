@@ -9,8 +9,8 @@ export default {
     const showModal = ref(false)
     const selectedPicture = ref(null)
     const pictures = [
-      'https://picsum.photos/seed/picture1/500/500',
-      'https://picsum.photos/seed/picture2/500/500',
+      'src/assets/istockphoto-635792246-612x612.jpg',
+      'src/assets/panorama-nature-hills-moldova-near-balanesti-village-193107868.jpg',
       'https://picsum.photos/seed/picture3/500/500',
       'https://picsum.photos/seed/picture4/500/500',
       'https://picsum.photos/seed/picture5/500/500',
@@ -19,11 +19,12 @@ export default {
     const selectPicture = (picture) => {
       selectedPicture.value = picture
       showModal.value = false
+      console.log(selectedPicture)
     }
 
     const handleImageSelect = (image) => {
       selectedPicture.value = image
-      emit('selectedImage', selectedPicture.value)
+      emit('selectedPicture', selectedPicture.value)
     }
 
     return {

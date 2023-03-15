@@ -16,10 +16,10 @@ const time = ref("")
 const date = ref("")
 
 const showModal = ref(false)
-const selectedImage = ref('')
+const selectedPicture = ref('')
 
 const handleSelectedImage = (image) => {
-  selectedImage.value = image
+  selectedPicture.value = image
   showModal.value = false
 }
 
@@ -115,13 +115,13 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 </script>
 
 <template>
+  <div class="w-full h-full bg-cover bg-center" :style="{ backgroundImage: `url(${selectedPicture})`}">
   <div class="flex flex-col items-center mt-10 text-2xl font-bold text-gray-800">
     <div class="mb-2">{{ time }}</div>
     <div class="text-lg font-normal">{{ date }}</div>
   </div>
   <div>
     <button @click="showModal = true">Select Image</button>
-    <img :src="selectedImage" alt="Selected Image" />
     <image-picker v-model:showModal="showModal" @image-selected="handleSelectedImage" />
   </div>
   <div class="flex flex-row justify-center space-x-5 pt-10">
@@ -156,11 +156,10 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
               >
                 <input
                     type="text"
-                    value="test"
                     name="description"
-                    :value="item.description"
+                    v-model="item.description"
                     class="w-full px-3 py-2 rounded-md mb-2"
-                    autocomplete="off"
+                    autocomplete="on"
                     required
                 />
                 <div class="flex justify-between">
@@ -227,6 +226,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
         </form>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
