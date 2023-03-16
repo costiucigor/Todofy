@@ -104,9 +104,9 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center pt-10 text-2xl font-bold text-gray-800">
+  <div class="flex flex-col text-height-loos tracking-tight items-center pt-10 text-8xl font-bold text-white ">
     <div class="mb-2">{{ time }}</div>
-    <div class="text-lg font-normal">{{ date }}</div>
+    <div class="text-2xl font-normal tracking-wide">{{ date }}</div>
   </div>
   <div>
   </div>
@@ -114,15 +114,15 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
     <div
         v-for="column of data.columns"
         :key="column.name"
-        class="rounded-md mt-40 shadow-md bg-slate-200/50 py-4 px-4 ga w-1/4 space-y-5">
+        class="rounded-md mt-40 bg-slate-200/ py-4 px-4 ga w-1/4 space-y-5">
       <div class="flex justify-center">
-        <div class="mb-3 text-xl font-bold">{{ column.name }}</div>
+        <div class="mb-3 text-xl font-bold text-white">{{ column.name }}</div>
       </div>
       <draggable
           v-model="column.list"
           group="items"
           item-key="id"
-          class="space-y-4 overflow-y-scroll"
+          class="space-y-4 max-h-64 overflow-y-scroll"
           :class="{
             'min-h-[40px] bg-slate-200 rounded-md py-3' : drag,
           }"
@@ -132,7 +132,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
       >
         <template #item="{ element: item, index: listIndex }">
           <div
-              class="group bg-slate-50 rounded-md py-2 px-3 shadow-md flex flex-row space-x-2 items-start relative"
+              class="group bg-slate-50 rounded-md py-2 px-3 shadow-md flex flex-row space-x-2 items-start relative bg-slate-50/40"
           >
             <template v-if="item.editing">
               <form
@@ -199,13 +199,13 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           <input
               type="text"
               name="description"
-              class="w-full px-3 py-2 rounded-md mb-2"
+              class="w-full px-3 py-2 rounded-md mb-2 bg-slate-50/30"
               autocomplete="off"
               required
           />
           <div class="flex justify-center">
             <button
-                class="bg-sky-700 mb-4 rounded-md text-white text-l hover:bg-sky-500 font-heavy w-20 transition
+                class="bg-sky-700 mb-4 rounded-md text-white text-l font-bold hover:bg-sky-500 subpixel-antialiased w-20 transition
                 duration-300 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose">
               Add
             </button>

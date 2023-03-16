@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, Ref, defineEmits } from 'vue';
+import {ref, Ref, defineEmits} from 'vue';
 import IconEdit from '~icons/mdi/application-cog-outline'
 
 interface Emits {
   (event: 'selectedPicture', picture: string): void;
 }
 
-const props = defineProps({
+defineProps({
   showModal: {
     type: Boolean,
     required: true,
@@ -18,11 +18,13 @@ const emits: Emits = defineEmits(['selectedPicture']);
 const showModal: Ref<boolean> = ref(false);
 const selectedPicture: Ref<string> = ref('');
 const pictures: string[] = [
-  'src/assets/istockphoto-635792246-612x612.jpg',
-  'src/assets/panorama-nature-hills-moldova-near-balanesti-village-193107868.jpg',
-  'https://picsum.photos/seed/picture3/500/500',
-  'https://picsum.photos/seed/picture4/500/500',
-  'https://picsum.photos/seed/picture5/500/500',
+  "src/assets/475deb640be53e99af96c0f20f71ba10.jpg",
+  "src/assets/198458.jpg",
+  "src/assets/photo-1506744038136-46273834b3fb.jfif",
+  "src/assets/photo-1511884642898-4c92249e20b6.jfif",
+  "src/assets/ezgif-1-3490179e50.jpg",
+  "src/assets/2K-Desktop-Wallpapers.jpg",
+  "src/assets/JMiyEP.jpg"
 ];
 
 const selectPicture = (picture: string) => {
@@ -35,20 +37,28 @@ const selectPicture = (picture: string) => {
 <template>
   <div>
     <button @click="showModal = true">
-      <IconEdit />
+      <IconEdit class="text-xl text-white hover:bg-slate-300/20"/>
     </button>
     <div
         v-if="showModal"
         class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"
-        @click="$emit('update:showModal', false)"
+        tabindex="0"
+        @click="showModal = false"
     ></div>
     <div
         v-if="showModal"
         class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-lg z-20"
         style="width: 500px;"
     >
-      <div class="p-4">
+      <div class="p-4 flex justify-between items-center">
         <h2 class="text-lg font-bold mb-4">Choose a Background Picture</h2>
+        <button class="bg-gray-200 rounded-full p-2 hover:bg-gray-300" @click="showModal = false">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="p-4">
         <div class="flex flex-wrap gap-4">
           <div
               v-for="(picture, index) in pictures"
@@ -56,7 +66,7 @@ const selectPicture = (picture: string) => {
               class="w-1/4 cursor-pointer"
               @click="selectPicture(picture)"
           >
-            <img :src="picture" class="w-full rounded-md shadow-md" />
+            <img :src="picture" class="w-full rounded-md shadow-md"/>
           </div>
         </div>
       </div>
