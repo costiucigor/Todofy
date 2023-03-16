@@ -6,21 +6,21 @@ export default {
   emits: ["selectedPicture"],
 
   setup(props, { emit }) {
+    const showModal = ref(false)
     const selectedPicture = ref("")
     const pictures = [
       'src/assets/istockphoto-635792246-612x612.jpg',
       'src/assets/panorama-nature-hills-moldova-near-balanesti-village-193107868.jpg',
-      'https://picsum.photos/seed/picture3/500/500',
-      'https://picsum.photos/seed/picture4/500/500',
-      'https://picsum.photos/seed/picture5/500/500',
     ]
 
     const selectPicture = (picture) => {
       selectedPicture.value = picture
+      showModal.value = false
       emit("selectedPicture", picture)
     }
 
     return {
+      showModal,
       selectedPicture,
       pictures,
       selectPicture,
@@ -33,12 +33,12 @@ export default {
   <div>
     <button @click="showModal = true">Choose Background Picture</button>
     <div
-        v-if="$props.showModal"
+        v-if="showModal"
         class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"
         @click="$emit('update:showModal', false)"
     ></div>
     <div
-        v-if="$props.showModal"
+        v-if="showModal"
         class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-lg z-20"
         style="width: 500px;"
     >
@@ -58,5 +58,4 @@ export default {
     </div>
   </div>
 </template>
-
 

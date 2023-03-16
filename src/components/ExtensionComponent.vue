@@ -18,9 +18,9 @@ const date = ref("")
 const showModal = ref(false)
 const selectedPicture = ref("")
 
-const handleSelectedImage = (image) => {
+const handleSelectedImage = (picture) => {
   console.log(selectedPicture.value)
-  selectedPicture.value = image.value
+  selectedPicture. value = picture
   showModal.value = false
 }
 
