@@ -1,37 +1,42 @@
-<script lang="ts">
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, Ref, defineEmits } from 'vue';
+import IconEdit from '~icons/mdi/application-cog-outline'
 
-export default {
-  props: ["showModal"],
-  emits: ["selectedPicture"],
-
-  setup(props, { emit }) {
-    const showModal = ref(false)
-    const selectedPicture = ref("")
-    const pictures = [
-      'src/assets/istockphoto-635792246-612x612.jpg',
-      'src/assets/panorama-nature-hills-moldova-near-balanesti-village-193107868.jpg',
-    ]
-
-    const selectPicture = (picture) => {
-      selectedPicture.value = picture
-      showModal.value = false
-      emit("selectedPicture", picture)
-    }
-
-    return {
-      showModal,
-      selectedPicture,
-      pictures,
-      selectPicture,
-    }
-  },
+interface Emits {
+  (event: 'selectedPicture', picture: string): void;
 }
+
+const props = defineProps({
+  showModal: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const emits: Emits = defineEmits(['selectedPicture']);
+
+const showModal: Ref<boolean> = ref(false);
+const selectedPicture: Ref<string> = ref('');
+const pictures: string[] = [
+  'src/assets/istockphoto-635792246-612x612.jpg',
+  'src/assets/panorama-nature-hills-moldova-near-balanesti-village-193107868.jpg',
+  'https://picsum.photos/seed/picture3/500/500',
+  'https://picsum.photos/seed/picture4/500/500',
+  'https://picsum.photos/seed/picture5/500/500',
+];
+
+const selectPicture = (picture: string) => {
+  selectedPicture.value = picture;
+  showModal.value = false;
+  emits('selectedPicture', picture);
+};
 </script>
 
 <template>
   <div>
-    <button @click="showModal = true">Choose Background Picture</button>
+    <button @click="showModal = true">
+      <IconEdit />
+    </button>
     <div
         v-if="showModal"
         class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-10"

@@ -6,29 +6,17 @@ import IconCheckboxMarked from '~icons/mdi/checkbox-marked'
 import IconTrashCan from '~icons/mdi/trash-can'
 import IconEdit from '~icons/mdi/edit'
 import {format} from 'date-fns'
-import ImagePicker from "./ImagePicker.vue";
 import draggable from "vuedraggable";
 
 
-components: { ImagePicker }
-
 const time = ref("")
 const date = ref("")
-
-const showModal = ref(false)
-const selectedPicture = ref("")
-
-const handleSelectedImage = (picture) => {
-  console.log(selectedPicture.value)
-  selectedPicture. value = picture
-  showModal.value = false
-}
 
 setInterval(() => {
   const now = new Date()
   time.value = format(now, "hh:mm:ss a")
   date.value = format(now, "MMMM dd, yyyy")
-}, 1000)
+}, 0)
 
 const drag = ref(false);
 const defaultData = {
@@ -116,14 +104,11 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 </script>
 
 <template>
-  <div class="w-full h-full bg-cover bg-center" :style="{ backgroundImage: `url(${selectedPicture})`}">
-  <div class="flex flex-col items-center mt-10 text-2xl font-bold text-gray-800">
+  <div class="flex flex-col items-center pt-10 text-2xl font-bold text-gray-800">
     <div class="mb-2">{{ time }}</div>
     <div class="text-lg font-normal">{{ date }}</div>
   </div>
   <div>
-    <button @click="showModal = true">Select Image</button>
-    <image-picker v-model:showModal="showModal" v-model:selectedPicture="selectedPicture" @image-selected="handleSelectedImage" />
   </div>
   <div class="flex flex-row justify-center space-x-5 pt-10">
     <div
@@ -137,7 +122,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           v-model="column.list"
           group="items"
           item-key="id"
-          class="space-y-4"
+          class="space-y-4 overflow-y-scroll"
           :class="{
             'min-h-[40px] bg-slate-200 rounded-md py-3' : drag,
           }"
@@ -220,14 +205,14 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           />
           <div class="flex justify-center">
             <button
-                class="bg-sky-700 mb-4 rounded-md text-white text-l hover:bg-sky-500 font-heavy w-20 transition duration-300 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose">
+                class="bg-sky-700 mb-4 rounded-md text-white text-l hover:bg-sky-500 font-heavy w-20 transition
+                duration-300 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose">
               Add
             </button>
           </div>
         </form>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
