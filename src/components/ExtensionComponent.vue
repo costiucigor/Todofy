@@ -128,6 +128,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           }"
           @start="drag = true"
           @end="drag = false"
+          style="overflow-y: auto;"
           ghost-class="ghost"
       >
         <template #item="{ element: item, index: listIndex }">
