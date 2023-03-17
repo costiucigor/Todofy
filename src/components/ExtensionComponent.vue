@@ -11,10 +11,11 @@ import draggable from "vuedraggable";
 
 const time = ref("")
 const date = ref("")
+const showDropdown = ref(false)
 
 setInterval(() => {
   const now = new Date()
-  time.value = format(now, "hh:mm:ss a")
+  time.value = format(now, "hh:mm a")
   date.value = format(now, "MMMM dd, yyyy")
 }, 0)
 
@@ -104,7 +105,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 </script>
 
 <template>
-  <div class="flex flex-col text-height-loos tracking-tight items-center pt-10 text-8xl font-bold text-white ">
+  <div class="flex flex-col text-height-loos tracking-tight items-center pt-10 text-9xl font-bold text-white ">
     <div class="mb-2">{{ time }}</div>
     <div class="text-2xl font-normal tracking-wide">{{ date }}</div>
   </div>
@@ -122,7 +123,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           v-model="column.list"
           group="items"
           item-key="id"
-          class="space-y-4 max-h-64 overflow-y-scroll"
+          class="space-y-4 max-h-46 overflow-y-scroll"
           :class="{
             'min-h-[40px] bg-slate-200 rounded-md py-3' : drag,
           }"
@@ -206,7 +207,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           />
           <div class="flex justify-center">
             <button
-                class="bg-sky-700 mb-4 rounded-md text-white text-l font-bold hover:bg-sky-500 subpixel-antialiased w-20 transition
+                class="bg-slate-500 mb-4 rounded-md text-white text-l font-bold hover:bg-slate-400 subpixel-antialiased w-20 transition
                 duration-300 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose">
               Add
             </button>
@@ -222,4 +223,17 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
   @apply bg-slate-400 opacity-40;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
 </style>
