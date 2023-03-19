@@ -105,8 +105,8 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 </script>
 
 <template>
-  <div class="flex flex-col text-height-loos tracking-tight items-center pt-10 text-9xl font-bold text-white ">
-    <div class="mb-2">{{ time }}</div>
+  <div class="flex flex-col font-sans tracking-tight items-center pt-10 text-9xl font-bold text-white ">
+    <div class="mb-2 ">{{ time }}</div>
     <div class="text-2xl font-normal tracking-wide">{{ date }}</div>
   </div>
   <div>
@@ -207,7 +207,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           />
           <div class="flex justify-center">
             <button
-                class="bg-slate-500 mb-4 rounded-md text-white text-l font-bold hover:bg-slate-400 subpixel-antialiased w-20 transition
+                class="bg-slate-500/30 mb-4 rounded-md text-white text-l font-slim hover:bg-slate-400 subpixel-antialiased w-20 transition
                 duration-300 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose">
               Add
             </button>

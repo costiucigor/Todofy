@@ -1,29 +1,43 @@
 <script setup lang="ts">
 import ExtensionComponent from './components/ExtensionComponent.vue'
-import ImagePicker from "./components//ImagePicker.vue";
-import {Ref, ref, watch} from "vue";
-components: { ImagePicker }
+import ImagePicker from "./components/ImagePicker.vue";
+import { Ref, ref, watch } from "vue";
 
 const showModal: Ref<boolean> = ref(false);
-const selectedPicture: Ref<string> = ref('');
+const selectedPicture: Ref<string> = ref("");
+
 const saveSelectedPicture = (value: string) => {
-  chrome.storage.sync.set({ selectedPicture: value }, () => {
-    console.log("Selected picture save:", value);
-  })
-}
+  if (chrome?.storage) {
+    chrome.storage.sync.set({ selectedPicture: value }, () => {
+      console.log("Selected picture saved:", value);
+    });
+  } else {
+    localStorage.setItem("selectedPicture", value);
+  }
+};
+
 watch(selectedPicture, (newValue) => {
   saveSelectedPicture(newValue);
-})
-const handleSelectedImage = (picture) => {
-  console.log(selectedPicture.value)
-  selectedPicture.value = picture
-  showModal.value = false
-}
-chrome.storage.sync.get(['selectedPicture'], (result) => {
-  if (result.selectedPicture) {
-    selectedPicture.value = result.selectedPicture;
-  }
 });
+
+const handleSelectedImage = (picture: string) => {
+  selectedPicture.value = picture;
+  showModal.value = false;
+  saveSelectedPicture(picture);
+};
+
+if (chrome?.storage) {
+  chrome.storage.sync.get(["selectedPicture"], (result) => {
+    if (result.selectedPicture) {
+      selectedPicture.value = result.selectedPicture;
+    }
+  });
+} else {
+  const storedPicture = localStorage.getItem("selectedPicture");
+  if (storedPicture) {
+    selectedPicture.value = storedPicture;
+  }
+}
 </script>
 
 <template>

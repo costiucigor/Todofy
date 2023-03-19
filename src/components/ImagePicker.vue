@@ -19,9 +19,6 @@ const showModal: Ref<boolean> = ref(false);
 const selectedPicture: Ref<string> = ref('');
 const pictures: string[] = [
   "src/assets/475deb640be53e99af96c0f20f71ba10.jpg",
-  "src/assets/198458.jpg",
-  "src/assets/photo-1506744038136-46273834b3fb.jfif",
-  "src/assets/photo-1511884642898-4c92249e20b6.jfif",
   "src/assets/ezgif-1-3490179e50.jpg",
   "src/assets/2K-Desktop-Wallpapers.jpg",
   "src/assets/JMiyEP.jpg"
