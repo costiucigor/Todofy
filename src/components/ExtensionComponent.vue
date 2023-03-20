@@ -119,24 +119,28 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
       <div class="flex justify-center">
         <div class="mb-3 text-xl font-bold text-white">{{ column.name }}</div>
       </div>
-      <draggable
-          v-model="column.list"
-          group="items"
-          item-key="id"
-          class="transition space-y-4 max-h-46 overflow-y-scroll transition
-                duration-300"
-          :class="{
-            'min-h-[40px] bg-slate-200/40 rounded-md py-3' : drag,
-          }"
-          @start="drag = true"
-          @end="drag = false"
-          style="overflow-y: auto;"
-          ghost-class="ghost"
-      >
-        <template #item="{ element: item, index: listIndex }">
-          <div
-              class="group bg-slate-50 rounded-md py-2 px-3 shadow-md flex flex-row space-x-2 items-start relative bg-slate-50/40"
-          >
+      <transition-group name="list" tag="div" mode="out-in">
+        <draggable
+            v-model="column.list"
+            group="items"
+            item-key="id"
+            :animation="200"
+            ghost-class="moving-card"
+            class="space-y-4 max-h-46 overflow-y-scroll"
+            :class="{
+        'min-h-[40px] bg-slate-200/40 rounded-md py-3' : drag,
+      }"
+            @start="drag = true"
+            @end="drag = false"
+            style="overflow-y: auto;"
+            ghost-class="ghost"
+        >
+          <template #item="{ element: item, index: listIndex }">
+            <div
+                class="group bg-slate-50 rounded-md py-2 px-3 shadow-md flex flex-row space-x-2 items-start relative bg-slate-50/40"
+                :key="item.id"
+                v-bind:class="{ 'list-move': true }"
+            >
             <template v-if="item.editing">
               <form
                   v-if="item.editing"
@@ -197,6 +201,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           </div>
         </template>
       </draggable>
+      </transition-group>
       <div class="pt-4">
         <form @submit.prevent="addItem($event, column)" class="flex flex-col justify-end">
           <input
@@ -236,5 +241,19 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 ::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 3px;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: opacity 5s ease-out;
+}
+
+.moving-card {
+  @apply opacity-50 bg-gray-100 border border-blue-500;
+}
+
+.list-enter,
+.list-leave-to {
+  opacity: 0;
 }
 </style>
