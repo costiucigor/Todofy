@@ -115,7 +115,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
     <div
         v-for="column of data.columns"
         :key="column.name"
-        class="rounded-md mt-40 bg-slate-200/ py-4 px-4 ga w-1/4 space-y-5">
+        class="rounded-md mt-40 bg-slate-200/0 py-4 px-4 ga w-1/4 space-y-5">
       <div class="flex justify-center">
         <div class="mb-3 text-xl font-bold text-white">{{ column.name }}</div>
       </div>
@@ -123,9 +123,10 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           v-model="column.list"
           group="items"
           item-key="id"
-          class="space-y-4 max-h-46 overflow-y-scroll"
+          class="transition space-y-4 max-h-46 overflow-y-scroll transition
+                duration-300"
           :class="{
-            'min-h-[40px] bg-slate-200 rounded-md py-3' : drag,
+            'min-h-[40px] bg-slate-200/40 rounded-md py-3' : drag,
           }"
           @start="drag = true"
           @end="drag = false"
@@ -166,7 +167,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
             </template>
             <template v-else>
               <div
-                  class="absolute hidden right-0 bottom-0 p-3 bg-slate-50 opacity-90 max-h-full space-x-3 flex-row group-hover:flex"
+                  class="absolute hidden right-0 bottom-0 p-3 bg-slate-50/0 opacity-90 max-h-full space-x-3 flex-row group-hover:flex"
               >
                 <div>
                   <button @click="item.editing = true">
@@ -220,7 +221,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 
 <style scoped>
 .ghost {
-  @apply bg-slate-400 opacity-40;
+  @apply bg-slate-100 opacity-40;
 }
 
 ::-webkit-scrollbar {

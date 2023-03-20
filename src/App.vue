@@ -43,7 +43,7 @@ if (chrome?.storage) {
 <template>
   <div class="absolute top-0 left-0 w-full h-full bg-cover bg-center" :style="{ backgroundImage: `url(${selectedPicture ? selectedPicture : 'src/assets/JMiyEP.jpg'})` }">
     <div class="ml-14 mt-14 w-60 h-60 absolute">
-      <image-picker v-model:showModal="showModal" @selectedPicture="(image) => handleSelectedImage(image)" />
+        <image-picker v-model:showModal="showModal" @selectedPicture="(image) => handleSelectedImage(image)" />
     </div>
     <extension-component/>
   </div>
