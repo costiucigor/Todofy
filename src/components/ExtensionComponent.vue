@@ -133,7 +133,6 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
             @start="drag = true"
             @end="drag = false"
             style="overflow-y: auto;"
-            ghost-class="ghost"
         >
           <template #item="{ element: item, index: listIndex }">
             <div
@@ -225,10 +224,6 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 </template>
 
 <style scoped>
-.ghost {
-  @apply bg-slate-100 opacity-40;
-}
-
 ::-webkit-scrollbar {
   width: 6px;
   border-radius: 3px;
@@ -249,7 +244,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 }
 
 .moving-card {
-  @apply opacity-50 bg-gray-100 border border-blue-500;
+  @apply opacity-50 bg-gray-100 border border-blue-500 bg-slate-100 opacity-40;
 }
 
 .list-enter,

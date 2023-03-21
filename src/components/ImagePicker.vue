@@ -18,10 +18,10 @@ const emits: Emits = defineEmits(['selectedPicture']);
 const showModal: Ref<boolean> = ref(false);
 const selectedPicture: Ref<string> = ref('');
 const pictures: string[] = [
-  "src/assets/475deb640be53e99af96c0f20f71ba10.jpg",
-  "src/assets/ezgif-1-3490179e50.jpg",
-  "src/assets/2K-Desktop-Wallpapers.jpg",
-  "src/assets/JMiyEP.jpg"
+  "./475deb640be53e99af96c0f20f71ba10.jpg",
+  "./ezgif-1-3490179e50.jpg",
+  "./2K-Desktop-Wallpapers.jpg",
+  "./JMiyEP.jpg"
 ];
 
 const selectPicture = (picture: string) => {
