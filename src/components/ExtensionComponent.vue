@@ -126,7 +126,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
             item-key="id"
             :animation="200"
             ghost-class="moving-card"
-            class="space-y-4 max-h-46 overflow-y-scroll"
+            class="space-y-4 max-h-44 overflow-y-scroll"
             :class="{
         'min-h-[40px] bg-slate-200/40 rounded-md py-3' : drag,
       }"
