@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, Ref, defineEmits} from 'vue';
+import {ref, Ref} from 'vue';
 import IconEdit from '~icons/mdi/application-cog-outline'
 
 interface Emits {
