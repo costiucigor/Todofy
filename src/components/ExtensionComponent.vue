@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import uniqid from "uniqid"
-import {reactive, ref, watch, toRaw} from "vue";
+import {reactive, ref, watch, toRaw, onMounted, computed} from "vue";
 import IconCheckboxBlankOutline from '~icons/mdi/checkbox-blank-outline'
 import IconCheckboxMarked from '~icons/mdi/checkbox-marked'
 import IconTrashCan from '~icons/mdi/trash-can'
@@ -37,6 +37,7 @@ const defaultData = {
   ]
 } as { columns: Column[] }
 
+
 const data = reactive(defaultData);
 
 if (chrome?.storage) {
@@ -60,6 +61,15 @@ watch(data, (newData) => {
   } else {
     localStorage.setItem("todofy-data", JSON.stringify(newData))
   }
+});
+
+const columns = computed(() => {
+  return defaultData.columns.map(column => {
+    return {
+      ...column,
+      listLength: column.list.length
+    };
+  });
 });
 
 interface Column {
@@ -108,6 +118,9 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
   <div class="flex flex-col font-sans tracking-tight items-center pt-10 text-9xl font-bold text-white ">
     <div class="mb-2 ">{{ time }}</div>
     <div class="text-2xl font-normal tracking-wide">{{ date }}</div>
+    <p v-for="(column, index) in columns" :key="index">
+      {{ column.name }} {{ column.listLength }}
+    </p>
   </div>
   <div>
     <div class="flex flex-row justify-center space-x-5 pt-10">
