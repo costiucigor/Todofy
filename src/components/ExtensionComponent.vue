@@ -63,14 +63,11 @@ watch(data, (newData) => {
   }
 });
 
-const columns = computed(() => {
-  return defaultData.columns.map(column => {
-    return {
-      ...column,
-      listLength: column.list.length
-    };
-  });
-});
+const columns = ref(defaultData.columns)
+
+const totalTasks = computed(() => {
+  return columns.value.reduce((total, column) => total + column.list.length, 0)
+})
 
 interface Column {
   name: String;
@@ -118,8 +115,8 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
   <div class="flex flex-col font-sans tracking-tight items-center pt-10 text-9xl font-bold text-white ">
     <div class="mb-2 ">{{ time }}</div>
     <div class="text-2xl font-normal tracking-wide">{{ date }}</div>
-    <p v-for="(column, index) in columns" :key="index">
-      {{ column.name }} {{ column.listLength }}
+    <p>
+      {{ totalTasks }}
     </p>
   </div>
   <div>
