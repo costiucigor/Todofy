@@ -23,15 +23,15 @@ const drag = ref(false);
 const defaultData = {
   columns: [
     {
-      name: "Next",
+      name: "To do",
       list: []
     },
     {
-      name: "Now",
+      name: "In progress",
       list: []
     },
     {
-      name: "Later",
+      name: "Done",
       list: []
     }
   ]
@@ -128,7 +128,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 </script>
 
 <template>
-  <div class="font-sans tracking-tight text-xl font-bold text-white">
+  <div class="font-sans tracking-tight text-xl font-thin text-white">
     <p class="mt-14 mr-14 absolute top-0 right-0">
       Total : {{ totalTasks }}
       <br />
@@ -165,7 +165,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           >
             <template #item="{ element: item, index: listIndex }">
               <div
-                  class="group bg-slate-50 rounded-md py-2 px-3 shadow-md flex flex-row space-x-2 items-start relative bg-slate-50/40"
+                  class="group bg-slate-50 rounded-md py-2 px-3 shadow-2xl flex flex-row space-x-2 items-start relative bg-slate-50/40"
                   :key="item.id"
                   v-bind:class="{ 'list-move': true }"
               >

@@ -1,10 +1,26 @@
 <script setup lang="ts">
-import {ref, Ref} from 'vue';
+import {onMounted, ref, Ref} from 'vue';
 import IconEdit from '~icons/mdi/application-cog-outline'
 
 interface Emits {
   (event: 'selectedPicture', picture: string): void;
 }
+
+const isDarkTheme = ref(false)
+
+const toggleDarkTheme = () => {
+  isDarkTheme.value = !isDarkTheme.value
+  document.documentElement.classList.toggle('dark');
+  localStorage.setItem('isDarkTheme', isDarkTheme.value.toString());
+}
+
+onMounted(() => {
+  const savedTheme = localStorage.getItem("isDarkTheme");
+  if (savedTheme) {
+    this.isDarkTheme = savedTheme === "true";
+    document.documentElement.classList.toggle("dark", this.isDarkTheme)
+  }
+})
 
 defineProps({
   showModal: {
@@ -70,6 +86,14 @@ const selectPicture = (picture: string) => {
             >
               <img :src="picture" class="w-full rounded-md shadow-md"/>
             </div>
+            <label for="dark-theme-toggle" class="flex items-center cursor-pointer">
+              <div class="mr-3 text-gray-700 dark:text-gray-300">Switch to {{ isDarkTheme ? 'light' : 'dark' }} mode</div>
+              <div class="relative">
+                <input type="checkbox" id="dark-theme-toggle" class="sr-only" v-model="isDarkTheme" />
+                <div class="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+              </div>
+            </label>
           </div>
         </div>
       </div>
@@ -83,5 +107,15 @@ const selectPicture = (picture: string) => {
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+.dark {
+  --bg-color: #1a1a1a;
+  --text-color: #f1f1f1;
+}
+
+.dark #app {
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 </style>
