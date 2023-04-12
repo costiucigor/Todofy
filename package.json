@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@types/chrome": "^0.0.222",
+    "@vueuse/core": "^9.13.0",
     "date-fns": "^2.29.3",
     "lodash": "^4.17.15",
     "uniqid": "^5.4.0",
