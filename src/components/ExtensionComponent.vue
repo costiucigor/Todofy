@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import uniqid from "uniqid"
-import {reactive, ref, watch, toRaw, onMounted, computed} from "vue";
+import {reactive, ref, watch, toRaw, onMounted, computed, onUnmounted} from "vue";
 import IconCheckboxBlankOutline from '~icons/mdi/checkbox-blank-outline'
 import IconCheckboxMarked from '~icons/mdi/checkbox-marked'
 import IconTrashCan from '~icons/mdi/trash-can'
@@ -94,9 +94,25 @@ const addItem = (event: SubmitEvent, column: Column) => {
   form.reset();
 }
 
+const deletedTasks = ref(parseInt(localStorage.getItem("deletedTasks")) || 0)
+
 const deleteItem = (column: Column, listIndex: number) => {
   column.list.splice(listIndex, 1);
+  deletedTasks.value += 1;
+  localStorage.setItem("deletedTasks", deletedTasks.value);
 }
+
+const handleStorageChange = () => {
+  deletedTasks.value = parseInt(localStorage.getItem('deletedTasks')) || 0;
+};
+
+onMounted(() => {
+  window.addEventListener('storage', handleStorageChange);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('storage', handleStorageChange);
+});
 
 const editItem = (event: Event, column: Column, listIndex: number) => {
   const form = event.target as HTMLFormElement;
@@ -112,12 +128,16 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
 </script>
 
 <template>
+  <div class="font-sans tracking-tight text-xl font-bold text-white">
+    <p class="mt-14 mr-14 absolute top-0 right-0">
+      Total : {{ totalTasks }}
+      <br />
+      Completed: {{ deletedTasks }}
+    </p>
+  </div>
   <div class="flex flex-col font-sans tracking-tight items-center pt-10 text-9xl font-bold text-white ">
     <div class="mb-2 ">{{ time }}</div>
     <div class="text-2xl font-normal tracking-wide">{{ date }}</div>
-    <p>
-      {{ totalTasks }}
-    </p>
   </div>
   <div>
     <div class="flex flex-row justify-center space-x-5 pt-10">
