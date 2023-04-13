@@ -27,7 +27,7 @@ const defaultData = {
       list: []
     },
     {
-      name: "In progress",
+      name: "In proggress",
       list: []
     },
     {
@@ -59,14 +59,16 @@ watch(data, (newData) => {
     chrome.storage.sync.set({key: toRaw(data)}, () => {
     });
   } else {
-    localStorage.setItem("todofy-data", JSON.stringify(newData))
+    localStorage.setItem("todofy-data", JSON.stringify(newData));
+    localStorage.setItem("totalTasks", totalTasks.value);
   }
 });
 
 const columns = ref(defaultData.columns)
 
 const totalTasks = computed(() => {
-  return columns.value.reduce((total, column) => total + column.list.length, 0)
+  return columns.value.reduce((total, column) => total + column.list.length, 0);
+  localStorage.getItem('totalTasks')
 })
 
 interface Column {
@@ -108,6 +110,16 @@ const handleStorageChange = () => {
 
 onMounted(() => {
   window.addEventListener('storage', handleStorageChange);
+  if (typeof localStorage === "undefined" || localStorage === null) {
+    console.log("localStorage is not available");
+  } else {
+    console.log("localStorage is available");
+    try {
+      localStorage.setItem("totalTasks", totalTasks.value);
+    } catch (error) {
+      console.log("Failed to save totalItems to localStorage:", error);
+    }
+  }
 });
 
 onUnmounted(() => {
