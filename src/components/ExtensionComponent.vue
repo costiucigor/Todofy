@@ -23,15 +23,15 @@ const drag = ref(false);
 const defaultData = {
   columns: [
     {
-      name: "To do",
+      name: "Today",
       list: []
     },
     {
-      name: "In proggress",
+      name: "Week",
       list: []
     },
     {
-      name: "Done",
+      name: "Month",
       list: []
     }
   ]
@@ -177,7 +177,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           >
             <template #item="{ element: item, index: listIndex }">
               <div
-                  class="group bg-slate-50 rounded-md py-2 px-3 shadow-2xl flex flex-row space-x-2 items-start relative bg-slate-50/40"
+                  class="group bg-slate-50 rounded-md py-2 px-3 shadow-md flex flex-row space-x-2 items-start relative bg-slate-50/0"
                   :key="item.id"
                   v-bind:class="{ 'list-move': true }"
               >
@@ -215,10 +215,10 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
                   >
                     <div>
                       <button @click="item.editing = true">
-                        <IconEdit/>
+                        <IconEdit class="transition-all delay-150 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose"/>
                       </button>
                       <button @click="deleteItem(column, listIndex)">
-                        <IconTrashCan class="text-red-700"/>
+                        <IconTrashCan class="transition-all delay-150 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose text-red-700"/>
                       </button>
                     </div>
                   </div>
