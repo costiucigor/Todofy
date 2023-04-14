@@ -3,7 +3,8 @@ The component renders the current time and date at the top of the page and three
 
 It is writen in Vue 3, using typescript, composition api, and tailwind
 
-The main goal of this app, is to be better than momentum, and free to use for all
+The main goal of this app, is to be better than other similar apps
+
 
 You can download this extension using chrome store
 
