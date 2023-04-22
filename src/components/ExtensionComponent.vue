@@ -177,7 +177,7 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
           >
             <template #item="{ element: item, index: listIndex }">
               <div
-                  class="group bg-slate-50 rounded-md py-2 px-3 shadow-md flex flex-row space-x-2 items-start relative bg-slate-50/70"
+                  class="group bg-slate-50 rounded-md py-2 px-3 shadow-md flex flex-row space-x-2 items-start relative bg-slate-50/80"
                   :key="item.id"
                   v-bind:class="{ 'list-move': true }"
               >

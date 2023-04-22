@@ -27,10 +27,11 @@ const emits: Emits = defineEmits(['selectedPicture']);
 const showModal: Ref<boolean> = ref(false);
 const selectedPicture: Ref<string> = ref('');
 const pictures: string[] = [
-  "./475deb640be53e99af96c0f20f71ba10.jpg",
-  "./ezgif-1-3490179e50.jpg",
-  "./2K-Desktop-Wallpapers.jpg",
-  "./JMiyEP.jpg"
+  "./sea-164989_960_720.jpg",
+  "./sunset-404072_960_720.jpg",
+  "./valley-90388_960_720.jpg",
+  "./wallpaper1.jpg",
+  "./wallpaper3.jpg"
 ];
 
 const selectPicture = (picture: string) => {
@@ -92,15 +93,5 @@ const selectPicture = (picture: string) => {
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
-}
-
-.dark {
-  --bg-color: #1a1a1a;
-  --text-color: #f1f1f1;
-}
-
-.dark #app {
-  background-color: var(--bg-color);
-  color: var(--text-color);
 }
 </style>
