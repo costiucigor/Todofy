@@ -78,6 +78,8 @@ interface Column {
     description: string;
     state: "new" | "done";
     editing?: boolean;
+    categories: string[];
+    priority: number;
   }
 }
 
@@ -85,6 +87,8 @@ const addItem = (event: SubmitEvent, column: Column) => {
   const form = event.target as HTMLFormElement;
   const formData = new FormData(event.target as HTMLFormElement);
   const description = formData.get("description") as string;
+  const priority = parseInt(formData.get("priority") as string);
+
   console.log(description)
 
   column.list.push({
@@ -130,9 +134,10 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
   const form = event.target as HTMLFormElement;
   const formData = new FormData(event.target as HTMLFormElement);
   const description = formData.get("description") as string;
-  console.log(description)
+  const priority = parseInt(formData.get("priority") as string);
 
-  column.list[listIndex].description = description
+  column.list[listIndex].description = description;
+  column.list[listIndex].priority = priority;
   column.list[listIndex].editing = false;
 
   form.reset();
