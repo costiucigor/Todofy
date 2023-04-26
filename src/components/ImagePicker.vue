@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDark, useToggle } from "@vueuse/core"
+import {useDark, useToggle} from "@vueuse/core"
 import {onMounted, ref, Ref} from 'vue';
 import IconEdit from '~icons/mdi/application-cog-outline'
 
@@ -27,11 +27,10 @@ const emits: Emits = defineEmits(['selectedPicture']);
 const showModal: Ref<boolean> = ref(false);
 const selectedPicture: Ref<string> = ref('');
 const pictures: string[] = [
-  "./sea-164989_960_720.jpg",
-  "./sunset-404072_960_720.jpg",
-  "./valley-90388_960_720.jpg",
-  "./wallpaper1.jpg",
-  "./wallpaper3.jpg"
+  "./cristina-gottardi-CSpjU6hYo_0-unsplash.jpg",
+  "./jonas-denil-_PKzBUfuhgg-unsplash.jpg",
+  "./luca-micheli-ruWkmt3nU58-unsplash.jpg",
+  "./tianshu-liu-aqZ3UAjs_M4-unsplash.jpg"
 ];
 
 const selectPicture = (picture: string) => {
@@ -64,7 +63,8 @@ const selectPicture = (picture: string) => {
         <div class="p-4 flex justify-between items-center">
           <h2 class="text-lg text-white font-bold mb-4">Choose a Background Picture</h2>
           <button class="bg-gray-200 rounded-md p-2 hover:bg-gray-300" @click="showModal = false">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
@@ -91,6 +91,7 @@ const selectPicture = (picture: string) => {
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
+
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }

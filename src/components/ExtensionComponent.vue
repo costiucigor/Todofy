@@ -35,8 +35,20 @@ const defaultData = {
       list: []
     }
   ]
-} as { columns: Column[] }
+} as { columns: Column[] };
 
+interface Column {
+  name: String;
+  list: {
+    id: string;
+    description: string;
+    state: "new" | "done";
+    editing?: boolean;
+    addPriority?: boolean;
+    categories: string[];
+    priority: number;
+  }
+}
 
 const data = reactive(defaultData);
 
@@ -71,25 +83,11 @@ const totalTasks = computed(() => {
   localStorage.getItem('totalTasks')
 })
 
-interface Column {
-  name: String;
-  list: {
-    id: string;
-    description: string;
-    state: "new" | "done";
-    editing?: boolean;
-    categories: string[];
-    priority: number;
-  }
-}
-
 const addItem = (event: SubmitEvent, column: Column) => {
   const form = event.target as HTMLFormElement;
   const formData = new FormData(event.target as HTMLFormElement);
   const description = formData.get("description") as string;
   const priority = parseInt(formData.get("priority") as string);
-
-  console.log(description)
 
   column.list.push({
     id: uniqid,
@@ -98,15 +96,28 @@ const addItem = (event: SubmitEvent, column: Column) => {
   });
 
   form.reset();
-}
+};
 
-const deletedTasks = ref(parseInt(localStorage.getItem("deletedTasks")) || 0)
+const editItem = (event: Event, column: Column, listIndex: number) => {
+  const form = event.target as HTMLFormElement;
+  const formData = new FormData(event.target as HTMLFormElement);
+  const description = formData.get("description") as string;
+  const priority = parseInt(formData.get("priority") as string);
+
+  column.list[listIndex].description = description;
+  column.list[listIndex].priority = priority;
+  column.list[listIndex].editing = false;
+
+  form.reset();
+};
+
+const deletedTasks = ref(parseInt(localStorage.getItem("deletedTasks")) || 0);
 
 const deleteItem = (column: Column, listIndex: number) => {
   column.list.splice(listIndex, 1);
   deletedTasks.value += 1;
   localStorage.setItem("deletedTasks", deletedTasks.value);
-}
+};
 
 const handleStorageChange = () => {
   deletedTasks.value = parseInt(localStorage.getItem('deletedTasks')) || 0;
@@ -129,26 +140,13 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('storage', handleStorageChange);
 });
-
-const editItem = (event: Event, column: Column, listIndex: number) => {
-  const form = event.target as HTMLFormElement;
-  const formData = new FormData(event.target as HTMLFormElement);
-  const description = formData.get("description") as string;
-  const priority = parseInt(formData.get("priority") as string);
-
-  column.list[listIndex].description = description;
-  column.list[listIndex].priority = priority;
-  column.list[listIndex].editing = false;
-
-  form.reset();
-}
 </script>
 
 <template>
   <div class="font-sans tracking-tight text-xl font-thin text-white">
     <p class="mt-14 mr-14 absolute top-0 right-0">
       Total : {{ totalTasks }}
-      <br />
+      <br/>
       Completed: {{ deletedTasks }}
     </p>
   </div>
@@ -220,10 +218,12 @@ const editItem = (event: Event, column: Column, listIndex: number) => {
                   >
                     <div>
                       <button @click="item.editing = true">
-                        <IconEdit class="transition-all delay-150 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose"/>
+                        <IconEdit
+                            class="transition-all delay-150 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose"/>
                       </button>
                       <button @click="deleteItem(column, listIndex)">
-                        <IconTrashCan class="transition-all delay-150 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose text-red-700"/>
+                        <IconTrashCan
+                            class="transition-all delay-150 transform hover:-translate-y-1 hover:scale-110 leading-extra-loose text-red-700"/>
                       </button>
                     </div>
                   </div>
