@@ -25,12 +25,13 @@ defineProps({
 const emits: Emits = defineEmits(['selectedPicture']);
 
 const showModal: Ref<boolean> = ref(false);
-const selectedPicture: Ref<string> = ref('');
+const selectedPicture: Ref<string> = ref("");
 const pictures: string[] = [
-  "./cristina-gottardi-CSpjU6hYo_0-unsplash.jpg",
-  "./jonas-denil-_PKzBUfuhgg-unsplash.jpg",
-  "./luca-micheli-ruWkmt3nU58-unsplash.jpg",
-  "./tianshu-liu-aqZ3UAjs_M4-unsplash.jpg"
+  "./mountain_bg.jpg",
+  "./forest_bg.jpg",
+  "./sunset_bg.jpg",
+  "./japan_bg.jpg",
+    ""
 ];
 
 const selectPicture = (picture: string) => {

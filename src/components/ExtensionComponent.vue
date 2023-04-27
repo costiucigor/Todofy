@@ -1,23 +1,20 @@
 <script setup lang="ts">
 import uniqid from "uniqid"
 import {reactive, ref, watch, toRaw, onMounted, computed, onUnmounted} from "vue";
-import IconCheckboxBlankOutline from '~icons/mdi/checkbox-blank-outline'
-import IconCheckboxMarked from '~icons/mdi/checkbox-marked'
-import IconTrashCan from '~icons/mdi/trash-can'
-import IconEdit from '~icons/mdi/edit'
+import IconCheckboxBlankOutline from '~icons/mdi/checkbox-blank-outline';
+import IconCheckboxMarked from '~icons/mdi/checkbox-marked';
+import IconTrashCan from '~icons/mdi/trash-can';
+import IconEdit from '~icons/mdi/edit';
+import ClockComponent from "./ClockComponent.vue";
 import {format} from 'date-fns'
 import draggable from "vuedraggable";
 
 const isOpen = ref(false);
-const time = ref("")
-const date = ref("")
 const showDropdown = ref(false)
 
-setInterval(() => {
-  const now = new Date()
-  time.value = format(now, "hh:mm a")
-  date.value = format(now, "MMMM dd, yyyy")
-}, 0)
+components: {
+  ClockComponent
+}
 
 const drag = ref(false);
 const defaultData = {
@@ -150,16 +147,15 @@ onUnmounted(() => {
       Completed: {{ deletedTasks }}
     </p>
   </div>
-  <div class="flex flex-col font-sans tracking-tight items-center pt-10 text-9xl font-bold text-white ">
-    <div class="mb-2 ">{{ time }}</div>
-    <div class="text-2xl font-normal tracking-wide">{{ date }}</div>
+  <div class="mt-28">
+    <ClockComponent />
   </div>
   <div>
     <div class="flex flex-row justify-center space-x-5 pt-10">
       <div
           v-for="column of data.columns"
           :key="column.name"
-          class="rounded-md mt-48 bg-slate-200/0 py-4 px-4 ga w-1/4 space-y-5">
+          class="rounded-md mt-20 bg-slate-200/0 py-4 px-4 ga w-1/4 space-y-5">
         <div class="flex justify-center">
           <div class="mb-3 text-xl font-bold text-white">{{ column.name }}</div>
         </div>

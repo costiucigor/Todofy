@@ -51,6 +51,7 @@ if (chrome?.storage) {
 
 <style>
 html, body {
+  background: black;
   margin: 0;
   padding: 0;
 }
