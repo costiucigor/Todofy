@@ -7,6 +7,7 @@ import IconTrashCan from '~icons/mdi/trash-can';
 import IconEdit from '~icons/mdi/edit';
 import ClockComponent from "./ClockComponent.vue";
 import SearchComponent from "./SearchComponent.vue";
+import LinksComponent from "./LinksComponent.vue";
 import {format} from 'date-fns'
 import draggable from "vuedraggable";
 
@@ -15,7 +16,8 @@ const showDropdown = ref(false)
 
 components: {
   ClockComponent;
-  SearchComponent
+  SearchComponent;
+  LinksComponent
 }
 
 const drag = ref(false);
@@ -154,6 +156,7 @@ onUnmounted(() => {
   </div>
   <div>
     <SearchComponent />
+    <LinksComponent />
   </div>
   <div>
     <div class="flex flex-row justify-center space-x-5 pt-10">
