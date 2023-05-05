@@ -156,6 +156,8 @@ onUnmounted(() => {
   </div>
   <div>
     <SearchComponent />
+  </div>
+  <div  class="mt-14 mr-14 absolute top-0 right-0">
     <LinksComponent />
   </div>
   <div>
