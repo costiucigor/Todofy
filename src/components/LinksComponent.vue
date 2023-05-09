@@ -11,12 +11,11 @@ const links = ref<Link[]>([
   { name: "GitHub", url: "https://github.com" }
 ]);
 
-const isOpen = ref(false);
+const showDropDown = ref(false);
 const showAddLinkForm = ref(false);
 const showEditLinkForm = ref(-1);
-
-const newLinkName = ref("");
-const newLinkUrl = ref("");
+const editName = ref("");
+const editUrl = ref("");
 
 const addLink = () => {
   if (!newLinkName.value || !newLinkUrl.value) {
@@ -36,70 +35,89 @@ const addLink = () => {
   }
 };
 
-const removeLink = (index: number) => {
+const deleteLink = (index: number) => {
   links.value.splice(index, 1);
 };
 
-const onFormSubmit = (event: Event) => {
+const onFormSubmit = async (event: Event) => {
   event.preventDefault(); // prevent the default form submission behavior
 
   if (!newLinkName.value || !newLinkUrl.value) {
     return;
   }
 
-  addLink(); // call the addLink function to add the new link
-  showAddLinkForm.value = false; // hide the form
+  if (showEditLinkForm.value >= 0) {
+    await updateLink(showEditLinkForm.value); // wait for the link to be updated
+    showEditLinkForm.value = -1; // hide the form
+  } else {
+    await addLink(); // wait for the new link to be added
+    showAddLinkForm.value = false; // hide the form
+  }
 };
 
 const onEditFormSubmit = (event: Event, index: number) => {
   event.preventDefault(); // prevent the default form submission behavior
 
-  if (!editName[index] || !editUrl[index]) {
+  if (!editName.value || !editUrl.value) {
     return;
   }
 
-  links.value[index].name = editName[index];
-  links.value[index].url = editUrl[index];
+  links.value[index].name = editName.value;
+  links.value[index].url = editUrl.value;
 
+  showEditLinkForm.value = -1; // hide the form
+};
+
+const editLink = (index: number) => {
+  const link = links.value[index];
+  editName.value = link.name;
+  editUrl.value = link.url;
+  showEditLinkForm.value = index;
+};
+
+const cancelEdit = () => {
   showEditLinkForm.value = -1;
 };
 
-const editName = ref<string[]>([]);
-const editUrl = ref<string[]>([]);
-
-const editLink = (index) => {
-  const link = links.value[index];
-  newLinkName.value = link.name;
-  newLinkUrl.value = link.url;
-  showAddLinkForm.value = true;
-}
-
+const newLinkName = ref("");
+const newLinkUrl = ref("");
 </script>
 
 <template>
-  <div class="relative">
-    <button
-        type="button"
-        @click.stop="showAddLinkForm = !showAddLinkForm"
-        class="bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded border"
-    >
-      + New Link
-    </button>
-
-    <ul class="ml-4">
-      <li v-for="(link, index) in links" :key="index" class="pt-2 flex items-center space-x-4">
-        <a :href="link.url" class="text-blue-500">{{ link.name }}</a>
-        <button type="button" @click="editLink(index)" class="text-gray-500">
-          Edit
+    <div class="relative">
+      <div class="relative ml-4">
+        <button
+            type="button"
+            @click="showDropDown = !showDropDown"
+            :class="{'bg-gray-100 hover:bg-gray-200': showDropDown, 'bg-white': !showDropDown}"
+            class="px-2 py-1 rounded border"
+        >
+          Links
         </button>
-        <button type="button" @click="removeLink(index)" class="ml-4 text-red-500">
-          Remove
-        </button>
-      </li>
-    </ul>
+        <ul v-show="showDropDown" @click.away="showDropDown = false" class="absolute z-10 bg-white py-2 mt-2 w-64 rounded-lg shadow-lg" style="right: 0;">
+          <li v-for="(link, index) in links" :key="index" class="px-4 py-2">
+            <a :href="link.url" target="_blank" rel="noopener noreferrer" class="text-blue-500">{{ link.name }}</a>
+            <button @click.stop="editLink(index)" class="ml-2 text-gray-500 hover:text-gray-700">Edit</button>
+            <button @click.stop="deleteLink(index)" class="ml-2 text-gray-500 hover:text-gray-700">Delete</button>
+          </li>
+          <li class="border-t border-gray-200 px-4 py-2">
+            <button
+                type="button"
+                @click.stop="showAddLinkForm = !showAddLinkForm"
+                class="text-gray-500 hover:text-gray-700"
+            >
+              + New Link
+            </button>
+          </li>
+        </ul>
+      </div>
 
     <div class="relative">
-      <form v-show="showAddLinkForm || showEditLinkForm" @submit.prevent="onFormSubmit" class="absolute top-0 right-0 mt-2 mr-2 w-64 bg-white rounded-lg p-4 shadow-lg z-10">
+      <form
+          v-show="showAddLinkForm || showEditLinkForm >= 0"
+          @submit.prevent="showEditLinkForm >= 0 ? onEditFormSubmit($event, showEditLinkForm) : onFormSubmit($event)"
+          class="absolute top-0 right-0 mt-2 mr-2 w-64 bg-white rounded-lg p-4 shadow-lg z-10"
+      >
         <div class="mb-4">
           <label class="block text-gray-700 font-bold mb-2" for="new-link-name">Name:</label>
           <input
@@ -123,11 +141,21 @@ const editLink = (index) => {
           />
         </div>
         <div class="flex justify-end">
-          <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors" type="submit">{{ showAddLinkForm ? 'Add Link' : 'Save' }}</button>
-          <button v-if="showEditLinkForm" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors ml-4" type="button" @click="cancelEdit">Cancel</button>
+          <button
+              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+              type="submit"
+          >
+            {{ showEditLinkForm >= 0 ? 'Save' : 'Add Link' }}
+          </button>
+          <button
+              class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors ml-4"
+              type="button"
+              @click="showAddLinkForm = false; showEditLinkForm = -1"
+          >
+            Cancel
+          </button>
         </div>
       </form>
-      <div v-show="showAddLinkForm || showEditLinkForm" class="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 opacity-50 z-0" @click="showAddLinkForm = false; showEditLinkForm = false"></div>
     </div>
   </div>
 </template>

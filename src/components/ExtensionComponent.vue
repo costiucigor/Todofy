@@ -144,13 +144,6 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="font-sans tracking-tight text-xl font-thin text-white">
-    <p class="mt-14 mr-14 absolute top-0 right-0">
-      Total : {{ totalTasks }}
-      <br/>
-      Completed: {{ deletedTasks }}
-    </p>
-  </div>
   <div class="mt-28">
     <ClockComponent />
   </div>
