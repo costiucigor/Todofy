@@ -147,7 +147,7 @@ onUnmounted(() => {
   <div class="mt-28">
     <ClockComponent />
   </div>
-  <div>
+  <div class="mt-12 mr-36 absolute top-0 right-0">
     <SearchComponent />
   </div>
   <div  class="mt-14 mr-14 absolute top-0 right-0">
