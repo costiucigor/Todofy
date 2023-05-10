@@ -1,4 +1,6 @@
 # Browser Extension, TODOFY
+
+To do: Allow users to load their own pictures, fix the bug with links. Load the extension to chrome storage
 Browser extensions are an important component in our work environment as they help us solve specific problems related to working with browsers, or improve the quality of our work. In this paper, I propose to explore how we can enhance Google Chrome extensions by using the Vue.js framework together with the TypeScript language. Vue.js is a modern framework for building web interfaces and is increasingly being used in web application development. The TypeScript language adds types to JavaScript and helps reduce code errors. We will explore how we can use these two technologies to develop an extension for our browser that will be scalable and easier to maintain.
 
 Objectives:
