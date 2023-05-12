@@ -45,9 +45,6 @@ interface Column {
     description: string;
     state: "new" | "done";
     editing?: boolean;
-    addPriority?: boolean;
-    categories: string[];
-    priority: number;
   }
 }
 
@@ -73,22 +70,15 @@ watch(data, (newData) => {
     });
   } else {
     localStorage.setItem("todofy-data", JSON.stringify(newData));
-    localStorage.setItem("totalTasks", totalTasks.value);
   }
 });
 
 const columns = ref(defaultData.columns)
 
-const totalTasks = computed(() => {
-  return columns.value.reduce((total, column) => total + column.list.length, 0);
-  localStorage.getItem('totalTasks')
-})
-
 const addItem = (event: SubmitEvent, column: Column) => {
   const form = event.target as HTMLFormElement;
   const formData = new FormData(event.target as HTMLFormElement);
   const description = formData.get("description") as string;
-  const priority = parseInt(formData.get("priority") as string);
 
   column.list.push({
     id: uniqid,
