@@ -18,13 +18,13 @@ const editName = ref("");
 const editUrl = ref("");
 
 const addLink = () => {
-  if (!newLinkName.value || !newLinkUrl.value) {
+  if (!currentLinkName.value || !currentLinkUrl.value) {
     return;
   }
 
   links.value.push({
-    name: newLinkName.value,
-    url: newLinkUrl.value
+    name: currentLinkName.value,
+    url: currentLinkUrl.value
   });
 
   newLinkName.value = "";
@@ -176,6 +176,7 @@ const newLinkUrl = ref("");
                 type="submit"
                 :disabled="!newLinkName && !editName || !newLinkUrl && !editUrl"
                 class="bg-blue-500 text-white py-2 px-4 rounded shadow"
+                @click.prevent="addLink"
             >
               {{ showEditLinkForm >= 0 ? 'Save' : 'Add' }}
             </button>
