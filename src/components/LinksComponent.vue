@@ -96,6 +96,10 @@ const currentLinkName = computed(() => {
   return showEditLinkForm.value >= 0 ? editName.value : newLinkName.value;
 });
 
+const currentLinkUrl = computed(() => {
+  return showEditLinkForm.value >= 0 ? editUrl.value : newLinkUrl.value;
+});
+
 const newLinkName = ref("");
 const newLinkUrl = ref("");
 
@@ -154,7 +158,7 @@ const newLinkUrl = ref("");
             <input
                 class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="edit-link-url"
-                :value="newLinkUrl || editUrl"
+                :value="currentLinkUrl"
                 type="text"
                 required
                 @click.stop
