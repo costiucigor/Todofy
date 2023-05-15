@@ -282,20 +282,4 @@ onUnmounted(() => {
 .moving-card {
   @apply opacity-50 bg-gray-100 border border-blue-500 bg-slate-100 opacity-40;
 }
-
-.list-enter,
-.list-leave-to {
-  opacity: 0;
-}
-
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 0.3s ease;
-}
-
-.slide-up-enter,
-.slide-up-leave-to {
-  transform: translateY(100%);
-  opacity: 0;
-}
 </style>
