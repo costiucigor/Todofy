@@ -1,41 +1,48 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
+import {ref, onMounted, computed} from "vue";
 
 interface Link {
   name: string;
   url: string;
 }
 
-const links = ref<Link[]>([
-  { name: "Google", url: "https://www.google.com" },
-  { name: "GitHub", url: "https://github.com" }
-]);
+const currentLinkName = computed({
+  get: () => {
+    return showEditLinkForm.value >= 0 ? links.value[showEditLinkForm.value].name : newLinkName.value;
+  },
+  set: (newValue: string) => {
+    if (showEditLinkForm.value >= 0) {
+      links.value[showEditLinkForm.value].name = newValue;
+    } else {
+      newLinkName.value = newValue;
+    }
+  }
+});
 
+const currentLinkUrl = computed({
+  get: () => {
+    return showEditLinkForm.value >= 0 ? links.value[showEditLinkForm.value].url : newLinkUrl.value;
+  },
+  set: (newValue: string) => {
+    if (showEditLinkForm.value >= 0) {
+      links.value[showEditLinkForm.value].url = newValue;
+    } else {
+      newLinkUrl.value = newValue;
+    }
+  }
+});
+
+const links = ref<Link[]>([]);
 const showDropDown = ref(false);
 const showAddLinkForm = ref(false);
 const showEditLinkForm = ref(-1);
 const editName = ref("");
 const editUrl = ref("");
 
-const addLink = () => {
-  if (!currentLinkName.value || !currentLinkUrl.value) {
-    return;
-  }
-
-  links.value.push({
-    name: currentLinkName.value,
-    url: currentLinkUrl.value
-  });
-
-  newLinkName.value = "";
-  newLinkUrl.value = "";
-
-  if (showAddLinkForm.value) {
-    showAddLinkForm.value = false;
-  }
-
-  saveLinksToStorage();
-};
+// Load links from local storage on component mount
+onMounted(() => {
+  loadLinksFromStorage();
+});
 
 const deleteLink = (index: number) => {
   links.value.splice(index, 1);
@@ -44,7 +51,6 @@ const deleteLink = (index: number) => {
 
 const updateLink = (index: number) => {
   const linkToUpdate = links.value[index];
-  // perform some update operation on linkToUpdate, for example:
   linkToUpdate.name = editName.value;
   linkToUpdate.url = editUrl.value;
   saveLinksToStorage();
@@ -53,7 +59,7 @@ const updateLink = (index: number) => {
 const onFormSubmit = (event: Event) => {
   event.preventDefault();
 
-  if (!newLinkName.value || !newLinkUrl.value) {
+  if (!currentLinkName || !currentLinkUrl) {
     return;
   }
 
@@ -74,10 +80,9 @@ const onFormSubmit = (event: Event) => {
 };
 
 const onEditFormSubmit = (event: Event, index: number) => {
-  event.preventDefault(); // prevent the default form submission behavior
-
+  event.preventDefault();
   updateLink(index);
-  showEditLinkForm.value = -1; // hide the form
+  showEditLinkForm.value = -1;
 };
 
 const editLink = (index: number) => {
@@ -92,17 +97,14 @@ const saveLinksToStorage = () => {
   localStorage.setItem("links", serializedLinks);
 };
 
-const currentLinkName = computed(() => {
-  return showEditLinkForm.value >= 0 ? editName.value : newLinkName.value;
-});
-
-const currentLinkUrl = computed(() => {
-  return showEditLinkForm.value >= 0 ? editUrl.value : newLinkUrl.value;
-});
-
+const loadLinksFromStorage = () => {
+  const serializedLinks = localStorage.getItem("links");
+  if (serializedLinks) {
+    links.value = JSON.parse(serializedLinks);
+  }
+};
 const newLinkName = ref("");
 const newLinkUrl = ref("");
-
 </script>
 
 <template>
@@ -142,27 +144,51 @@ const newLinkUrl = ref("");
       >
         <div class="mb-4">
           <div v-if="showEditLinkForm >= 0 || showAddLinkForm" class="mb-4">
-            <label class="block text-gray-700 font-bold mb-2" for="edit-link-name">Name:</label>
-            <input
-                class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="edit-link-name"
-                :value="currentLinkName"
-                @input="showEditLinkForm >= 0 ? editName = $event.target.value : newLinkName = $event.target.value"
-                type="text"
-                required
-                @click.stop
-            />
+            <template v-if="showEditLinkForm >= 0">
+              <label class="block text-gray-700 font-bold mb-2" for="edit-link-name">Name:</label>
+              <input
+                  class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="edit-link-name"
+                  :value="editName"
+                  @input="editName = $event.target.value"
+                  type="text"
+                  required
+                  @click.stop
+              />
+              <label class="block text-gray-700 font-bold mb-2" for="edit-link-url">URL:</label>
+              <input
+                  class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="edit-link-url"
+                  :value="editUrl"
+                  @input="editUrl = $event.target.value"
+                  type="text"
+                  required
+                  @click.stop
+              />
+            </template>
+            <template v-else>
+              <label class="block text-gray-700 font-bold mb-2" for="edit-link-url">Name:</label>
+              <input
+                  class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="new-link-name"
+                  v-model="newLinkName"
+                  type="text"
+                  required
+                  @click.stop
+              />
+              <label class="block text-gray-700 font-bold mb-2" for="edit-link-url">URL:</label>
+              <input
+                  class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="edit-link-url"
+                  :value="newLinkUrl"
+                  @input="newLinkUrl = $event.target.value"
+                  type="text"
+                  required
+                  @click.stop
+              />
+            </template>
           </div>
           <div class="mb-4">
-            <label class="block text-gray-700 font-bold mb-2" for="edit-link-url">URL:</label>
-            <input
-                class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="edit-link-url"
-                :value="currentLinkUrl"
-                type="text"
-                required
-                @click.stop
-            />
           </div>
           <div class="flex justify-end">
             <button
@@ -174,9 +200,7 @@ const newLinkUrl = ref("");
             </button>
             <button
                 type="submit"
-                :disabled="!newLinkName && !editName || !newLinkUrl && !editUrl"
                 class="bg-blue-500 text-white py-2 px-4 rounded shadow"
-                @click.prevent="addLink"
             >
               {{ showEditLinkForm >= 0 ? 'Save' : 'Add' }}
             </button>
