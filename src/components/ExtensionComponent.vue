@@ -21,6 +21,16 @@ components: {
 }
 
 const drag = ref(false);
+
+interface Column {
+  name: String;
+  list: {
+    id: string;
+    description: string;
+    editing?: boolean;
+  }
+}
+
 const defaultData = {
   columns: [
     {
@@ -37,16 +47,6 @@ const defaultData = {
     }
   ]
 } as { columns: Column[] };
-
-interface Column {
-  name: String;
-  list: {
-    id: string;
-    description: string;
-    state: "new" | "done";
-    editing?: boolean;
-  }
-}
 
 const data = reactive(defaultData);
 

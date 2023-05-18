@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {useDark, useToggle} from "@vueuse/core"
 import {onMounted, ref, Ref} from 'vue';
 import IconEdit from '~icons/mdi/application-cog-outline'
 

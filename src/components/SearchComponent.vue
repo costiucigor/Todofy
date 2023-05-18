@@ -2,8 +2,6 @@
 import { ref } from "vue";
 
 const query = ref("");
-const showSearch = ref(false);
-const isFocused = ref(false);
 
 const search = () => {
   window.open(`https://www.google.com/search?q=${encodeURIComponent(query.value)}`, '_blank')
