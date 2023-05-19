@@ -6,14 +6,6 @@ interface Emits {
   (event: 'selectedPicture', picture: string): void;
 }
 
-onMounted(() => {
-  const savedTheme = localStorage.getItem("isDarkTheme");
-  if (savedTheme) {
-    this.isDarkTheme = savedTheme === "true";
-    document.documentElement.classList.toggle("dark", this.isDarkTheme)
-  }
-})
-
 defineProps({
   showModal: {
     type: Boolean,
