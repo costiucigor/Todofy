@@ -135,13 +135,13 @@ onUnmounted(() => {
 
 <template>
   <div class="mt-28">
-    <ClockComponent />
+    <ClockComponent/>
   </div>
   <div class="mt-12 mr-36 absolute top-0 right-0">
-    <SearchComponent />
+    <SearchComponent/>
   </div>
-  <div  class="mt-14 mr-14 absolute top-0 right-0">
-    <LinksComponent />
+  <div class="mt-14 mr-14 absolute top-0 right-0">
+    <LinksComponent/>
   </div>
   <div>
     <div class="flex flex-row justify-center space-x-5 pt-10">

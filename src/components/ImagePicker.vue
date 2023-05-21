@@ -22,7 +22,7 @@ const pictures: string[] = [
   "./forest_bg.jpg",
   "./sunset_bg.jpg",
   "./japan_bg.jpg",
-    ""
+  ""
 ];
 
 const selectPicture = (picture: string) => {
